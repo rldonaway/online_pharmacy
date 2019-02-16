@@ -1,6 +1,6 @@
 package com.insightdataengineering.donaway;
 
-public class DrugQuery {
+public class TopCostDrugQuery {
 	
 	public static void main(String[] args) {
 		// 1. accept filename input
