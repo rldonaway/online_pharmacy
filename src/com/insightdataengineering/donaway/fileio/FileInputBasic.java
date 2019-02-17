@@ -55,6 +55,7 @@ public class FileInputBasic implements FileInput {
 	 */
 	@Override
 	public Iterator<String> iterator() {
+		// TODO take olf header row
 		return fileIterator;
 	}
 	

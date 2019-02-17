@@ -18,6 +18,7 @@ public class FileInputTest {
 		try (FileInput fi = createFileInput()) {
 			for (String line : fi) {
 				System.out.println(line);
+				// TODO actually use fahl data
 			}			
 		}
 	}

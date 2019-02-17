@@ -10,6 +10,7 @@ package com.insightdataengineering.donaway.fileio;
  * @author Robert L. Donaway
  *
  */
+// TODO generalize to "any" input... there is nothing special about file
 public interface FileInput extends Iterable<String>, AutoCloseable {
 
 	@Override
