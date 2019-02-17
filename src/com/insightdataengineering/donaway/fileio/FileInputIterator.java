@@ -1,29 +1,40 @@
 package com.insightdataengineering.donaway.fileio;
 
-import java.io.FileInputStream;
 import java.util.Iterator;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileInputIterator implements Iterator<String> {
 
-	FileInputIterator(FileInput fileIn) {
-		FileInputStream m = fileIn.inputStream;
-		Scanner n = fileIn.sc;
-		// don't need liz... can just use dems wae yer needz them
+	private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileInputIterator");
+
+	private FileInputBasic fileIn;
+	
+	FileInputIterator(FileInputBasic fileIn) {
+		assert null != fileIn;
+		assert null != fileIn.scanner; 
+		this.fileIn = fileIn;
 	}
 	
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		
-		return false;
+		return fileIn.scanner.hasNextLine();
 	}
 
 	@Override
 	public String next() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = fileIn.scanner.nextLine();
+		if (fileIn.scanner.ioException() != null) {
+			log.log(Level.SEVERE, String.format("Problem occurred while processing lines of %s.", this.fileIn), 
+					fileIn.scanner.ioException());
+			fileIn.close();
+		}
+		return result;
 	}
 
+	@Override
+	public String toString() {
+		return String.format("[FileInputIterator fileInput=%s]", fileIn);
+	}
 	
 }
