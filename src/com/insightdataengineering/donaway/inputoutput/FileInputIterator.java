@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class FileInputIterator implements Iterator<String> {
 
-	private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileInputIterator");
+	private Logger log = Logger.getLogger("com.insightengineering.donaway.inputoutput.FileInputIterator");
 
 	private FileInputBasic fileIn;
 	private boolean skipHeader;
@@ -21,6 +21,7 @@ public class FileInputIterator implements Iterator<String> {
 		assert null != fileIn;
 		assert null != fileIn.scanner; 
 		this.fileIn = fileIn;
+		this.skipHeader = skipHeader;
 	}
 	
 	@Override

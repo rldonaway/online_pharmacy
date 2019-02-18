@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class FileInputBasic implements InputResource {
 
-	private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileInputBasic");
+	private Logger log = Logger.getLogger("com.insightengineering.donaway.inputoutput.FileInputBasic");
 
 	private FileInputStream inputStream;
 	Scanner scanner;
@@ -60,8 +60,8 @@ public class FileInputBasic implements InputResource {
 	
 	@Override
 	public String toString() {
-		return String.format("[FileInput filePath=%s inputStream=%s scanner=%s fileIterator=%s]", 
-				filePath, inputStream, scanner, fileIterator);
+		return String.format("[FileInput filePath=%s inputStream=%s scanner=%s]", 
+				filePath, inputStream, scanner);
 	}
 
 }

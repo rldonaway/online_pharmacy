@@ -37,4 +37,6 @@ public class TopCostDrugQuery {
 		}
 	}
 	
+//	input C:/Users/Terri/git/online_pharmacy/insight_testsuite/tests/test_2/input/de_cc_data.txt
+//	output C:/Users/Terri/git/online_pharmacy/insight_testsuite/tests/test_2/output/top_cost_drug.txt
 }

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class FileOutputBasic implements OutputResource {
 
-    private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileOutputBasic");
+    private Logger log = Logger.getLogger("com.insightengineering.donaway.inputoutput.FileOutputBasic");
 
 	private String filePath;
 	private BufferedWriter writer;
@@ -49,6 +49,7 @@ public class FileOutputBasic implements OutputResource {
 	        sb.append(',');
 	    }
 	    sb.deleteCharAt(sb.length() - 1);
+	    sb.append(System.lineSeparator());
 	    writeLine(sb.toString());
 	}
 	
@@ -61,7 +62,6 @@ public class FileOutputBasic implements OutputResource {
         } catch (IOException e) {
             log.log(Level.SEVERE, String.format("Problem when attempting to close file %s.", this.filePath), e); 
         }
-
 	}
 
 }

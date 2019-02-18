@@ -23,9 +23,10 @@ import com.insightdataengineering.donaway.inputoutput.OutputResource;
  */
 public class DrugPrescriberQuery implements Query {
 
-	private Logger log = Logger.getLogger("com.insightengineering.donaway.statsgenerator");
+    private Logger log = Logger.getLogger("com.insightengineering.donaway.query.DrugPrescriberQuery");
 
 	private Map<String, PrescriberCost> drugMap = new HashMap<String, PrescriberCost>();
+	private DrugPrescriberQueryDataExtractor dataExtractor = new DrugPrescriberQueryDataExtractor();
 
 	/*
 	 * (non-Javadoc)
@@ -68,11 +69,7 @@ public class DrugPrescriberQuery implements Query {
 			log.log(Level.FINER, "Processing: " + line);
 		}
 		assert null != line;
-		String[] lineItems = line.split(",");
-		if (lineItems.length != 5) {
-			log.log(Level.WARNING, "Row does not have 5 entries: " + line);
-			return;
-		}
+		String[] lineItems = dataExtractor.extractLineItems(line);
 		String id = lineItems[0];
 		if (empty(id, "id", id)) {
 			return;
@@ -83,7 +80,7 @@ public class DrugPrescriberQuery implements Query {
 		}
 		String firstName = lineItems[2];
 		if (empty(id, "firstName", firstName)) {
-			return;
+			log.log(Level.INFO, String.format("Row with id=%s has blank firstName", id));
 		}
 		String drug = lineItems[3];
 		if (empty(id, "drug", drug)) {
@@ -106,7 +103,7 @@ public class DrugPrescriberQuery implements Query {
 		addToDrugMap(drug, cost, prescriber);
 	}
 
-	private boolean empty(String id, String label, String value) {
+    private boolean empty(String id, String label, String value) {
 		if (value == null || value.length() < 1) {
 			log.log(Level.WARNING, String.format("Row with id=%s has %s=%s", id, label, value));
 			return true;
@@ -129,7 +126,7 @@ public class DrugPrescriberQuery implements Query {
 	}
 
 	final class PrescriberCost {
-		Set<String> prescribers = new HashSet<String>();
+		final Set<String> prescribers = new HashSet<String>();
 		BigDecimal cost = BigDecimal.ZERO;
 
 		void add(String prescriber, BigDecimal cost) {
@@ -151,7 +148,7 @@ public class DrugPrescriberQuery implements Query {
 	final class DrugPrescriberCost {
 		final String drug;
 		final int prescriberCount;
-		final BigDecimal totalCost; // TODO should this be an integer?
+		final BigDecimal totalCost;
 
 		public DrugPrescriberCost(String drug, int prescriberCount, BigDecimal totalCost) {
 			this.drug = drug;

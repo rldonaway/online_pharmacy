@@ -1,4 +1,4 @@
-package com.insightdataengineering.donaway.statsgenerator;
+package com.insightdataengineering.donaway.query;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,11 +8,12 @@ import org.junit.jupiter.api.Test;
 import com.insightdataengineering.donaway.inputoutput.OutputResource;
 import com.insightdataengineering.donaway.query.DrugPrescriberQuery;
 
-public class DrugPrescriberStatsTest {
+public class DrugPrescriberQueryTest {
 
-	@Test
+    DrugPrescriberQuery dpsToTest = new DrugPrescriberQuery();
+
+    @Test
 	public void testGenerateSmallData() {
-		DrugPrescriberQuery dpsToTest = new DrugPrescriberQuery();
 		List<String> inputData = Arrays.asList(
 				"1000000001,Smith,James,AMBIEN,100",
 				"1000000002,Garcia,Maria,AMBIEN,200",
