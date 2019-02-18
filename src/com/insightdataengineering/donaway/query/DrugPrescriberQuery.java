@@ -1,8 +1,9 @@
-package com.insightdataengineering.donaway.statsgenerator;
+package com.insightdataengineering.donaway.query;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DrugPrescriberStats implements StatsGenerator {
+import com.insightdataengineering.donaway.inputoutput.OutputResource;
+
+/**
+ * Generates a list of all drugs, the total number of UNIQUE individuals who prescribed
+ * the medication, and the total drug cost, which is listed in descending order
+ * based on the total drug cost and if there is a tie, drug name in ascending order.
+ *  
+ * @author Robert L. Donaway
+ */
+public class DrugPrescriberQuery implements Query {
 
 	private Logger log = Logger.getLogger("com.insightengineering.donaway.statsgenerator");
 
@@ -21,14 +31,13 @@ public class DrugPrescriberStats implements StatsGenerator {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.insightdataengineering.donaway.statsgenerator.StatsGenerator#generate()
+	 * com.insightdataengineering.donaway.query.Query#generateResults()
 	 */
 	@Override
-	public void generate(Iterable<String> input) {
+	public void generateResults(Iterable<String> input, OutputResource output) {
 		for (String line : input) {
 			processLine(line);
 		}
-		System.out.println(drugMap);
 		List<DrugPrescriberCost> dpcResult = new ArrayList<DrugPrescriberCost>(drugMap.size());
 		for (String drug : drugMap.keySet()) {
 			PrescriberCost prescriberCost = drugMap.get(drug);
@@ -37,12 +46,21 @@ public class DrugPrescriberStats implements StatsGenerator {
 			log.log(Level.FINEST, String.format("%s,%s,%s", drug, prescriberCount, totalCost));
 			dpcResult.add(new DrugPrescriberCost(drug, prescriberCount, totalCost));
 		}
-		Collections.sort(dpcResult); // TODO allow for client to pass in a sort method?
+		Collections.sort(dpcResult, new Comparator<DrugPrescriberCost>() {
+            @Override
+            public int compare(DrugPrescriberCost o1, DrugPrescriberCost o2) {
+                assert null != o1 && null != o2;
+                int costComp = o1.totalCost.compareTo(o2.totalCost);
+                if (costComp == 0) {
+                    return o1.drug.compareTo(o2.drug);
+                }
+                return -1 * costComp;
+            }
+        });
+		output.writeCsvLine("drug_name", "num_prescriber", "total_cost");
 		for (DrugPrescriberCost dpc : dpcResult) {
-			System.out.println(dpc);
+		    output.writeCsvLine(dpc.drug, dpc.prescriberCount, dpc.totalCost);
 		}
-		//TODO do something real with the results... return?
-//		result.add(0, "drug_name,num_prescriber,total_cost");
 	}
 
 	void processLine(String line) {
@@ -130,8 +148,7 @@ public class DrugPrescriberStats implements StatsGenerator {
 
 	}
 
-	final class DrugPrescriberCost implements Comparable<DrugPrescriberCost> {
-		
+	final class DrugPrescriberCost {
 		final String drug;
 		final int prescriberCount;
 		final BigDecimal totalCost; // TODO should this be an integer?
@@ -140,55 +157,6 @@ public class DrugPrescriberStats implements StatsGenerator {
 			this.drug = drug;
 			this.prescriberCount = prescriberCount;
 			this.totalCost = totalCost;
-		}
-
-		@Override
-		public int compareTo(DrugPrescriberCost o) {
-			assert null != o;
-			int costComp = this.totalCost.compareTo(o.totalCost);
-			if (costComp == 0) {
-				return this.drug.compareTo(o.drug);
-			}
-			return -1 * costComp;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((drug == null) ? 0 : drug.hashCode());
-			result = prime * result + prescriberCount;
-			result = prime * result + ((totalCost == null) ? 0 : totalCost.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			DrugPrescriberCost other = (DrugPrescriberCost) obj;
-			if (drug == null) {
-				if (other.drug != null) {
-					return false;
-				}
-			} else if (!drug.equals(other.drug)) {
-				return false;
-			}
-			if (prescriberCount != other.prescriberCount) {
-				return false;
-			}
-			if (totalCost == null) {
-				if (other.totalCost != null) {
-					return false;
-				}
-			} else if (!totalCost.equals(other.totalCost)) {
-				return false;
-			}
-			return true;
 		}
 
 		@Override

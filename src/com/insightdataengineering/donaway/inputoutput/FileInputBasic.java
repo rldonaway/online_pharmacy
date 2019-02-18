@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Implements the FileInput interface using basic input libraries provided by the JDK.
+ * Implements the InputResource interface using basic file input libraries provided by the JDK.
  * 
  * @author Robert L. Donaway
  */
@@ -22,19 +22,19 @@ public class FileInputBasic implements InputResource {
 	private FileInputIterator fileIterator;
 	private String filePath;
 
-	public FileInputBasic(String filePath) {
+	public FileInputBasic(String filePath, boolean skipHeader) {
 		this.filePath = filePath;
 		try {
 			inputStream = new FileInputStream(filePath);
-			scanner = new Scanner(inputStream, "UTF-8");
-			fileIterator = new FileInputIterator(this);
+			scanner = new Scanner(inputStream);
+			fileIterator = new FileInputIterator(this, skipHeader);
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException(String.format("Requested file (%s) could not be found.", filePath));
 		}
 	}
 
 	/* (non-Javadoc)
-	 * @see com.insightdataengineering.donaway.fileio.FileInput#close()
+	 * @see com.insightdataengineering.donaway.inputoutput.InputResource#close()
 	 */
 	@Override
 	public void close() {
@@ -51,11 +51,10 @@ public class FileInputBasic implements InputResource {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.insightdataengineering.donaway.fileio.FileInput#iterator()
+	 * @see com.insightdataengineering.donaway.inputoutput.InputResource#iterator()
 	 */
 	@Override
 	public Iterator<String> iterator() {
-		// TODO take olf header row
 		return fileIterator;
 	}
 	

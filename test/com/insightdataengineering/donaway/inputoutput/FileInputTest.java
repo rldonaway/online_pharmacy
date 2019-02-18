@@ -1,4 +1,4 @@
-package com.insightdataengineering.donaway.fileio;
+package com.insightdataengineering.donaway.inputoutput;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,9 @@ import com.insightdataengineering.donaway.inputoutput.InputResource;
 public class FileInputTest {
 
 	private InputResource createFileInput() {
-		return new FileInputBasic("/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_1/input/itcont.txt");
+//	    String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_1/input/itcont.txt";
+        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_1\\input\\itcont.txt";
+		return new FileInputBasic(filePath, true);
 	}
 
 	@Test

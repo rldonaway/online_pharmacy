@@ -4,13 +4,20 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Permits iteration over the lines provided by a FileInputBasic.
+ * 
+ * @author Robert L. Donaway
+ */
 public class FileInputIterator implements Iterator<String> {
 
 	private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileInputIterator");
 
 	private FileInputBasic fileIn;
+	private boolean skipHeader;
+	private boolean firstLineProcessed;
 	
-	FileInputIterator(FileInputBasic fileIn) {
+	FileInputIterator(FileInputBasic fileIn, boolean skipHeader) {
 		assert null != fileIn;
 		assert null != fileIn.scanner; 
 		this.fileIn = fileIn;
@@ -28,6 +35,11 @@ public class FileInputIterator implements Iterator<String> {
 			log.log(Level.SEVERE, String.format("Problem occurred while processing lines of %s.", this.fileIn), 
 					fileIn.scanner.ioException());
 			fileIn.close();
+		}
+		if (!firstLineProcessed && skipHeader && fileIn.scanner.hasNextLine()) {
+		    log.log(Level.INFO, String.format("Skipping over the first line of %s.", this.fileIn));
+		    result = fileIn.scanner.nextLine();
+		    firstLineProcessed = true;
 		}
 		return result;
 	}
