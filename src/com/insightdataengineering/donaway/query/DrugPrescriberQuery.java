@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ public class DrugPrescriberQuery implements Query {
 
     private Logger log = Logger.getLogger("com.insightengineering.donaway.query.DrugPrescriberQuery");
 
-	private Map<String, PrescriberCost> drugMap = new HashMap<String, PrescriberCost>();
+	private Map<String, PrescriberCost> drugMap = new HashMap<>();
 	private DrugPrescriberQueryDataExtractor dataExtractor = new DrugPrescriberQueryDataExtractor();
 
 	/*
@@ -39,12 +40,15 @@ public class DrugPrescriberQuery implements Query {
 		for (String line : input) {
 			processLine(line);
 		}
-		List<DrugPrescriberCost> dpcResult = new ArrayList<DrugPrescriberCost>(drugMap.size());
-		for (String drug : drugMap.keySet()) {
-			PrescriberCost prescriberCost = drugMap.get(drug);
+		List<DrugPrescriberCost> dpcResult = new ArrayList<>(drugMap.size());
+		for (Entry<String, PrescriberCost> drugEntry : drugMap.entrySet()) {
+			String drug = drugEntry.getKey();
+            PrescriberCost prescriberCost = drugMap.get(drug);
 			int prescriberCount = prescriberCost.prescriberCount();
 			BigDecimal totalCost = prescriberCost.cost;
-			log.log(Level.FINEST, String.format("%s,%s,%s", drug, prescriberCount, totalCost));
+			if (log.isLoggable(Level.FINEST)) {
+			    log.log(Level.FINEST, String.format("%s,%s,%s", drug, prescriberCount, totalCost));
+			}
 			dpcResult.add(new DrugPrescriberCost(drug, prescriberCount, totalCost));
 		}
 		Collections.sort(dpcResult, new Comparator<DrugPrescriberCost>() {
@@ -80,7 +84,9 @@ public class DrugPrescriberQuery implements Query {
 		}
 		String firstName = lineItems[2];
 		if (empty(id, "firstName", firstName)) {
-			log.log(Level.INFO, String.format("Row with id=%s has blank firstName", id));
+		    if (log.isLoggable(Level.INFO)) {
+		        log.log(Level.INFO, String.format("Row with id=%s has blank firstName", id));
+		    }
 		}
 		String drug = lineItems[3];
 		if (empty(id, "drug", drug)) {
@@ -105,7 +111,9 @@ public class DrugPrescriberQuery implements Query {
 
     private boolean empty(String id, String label, String value) {
 		if (value == null || value.length() < 1) {
-			log.log(Level.WARNING, String.format("Row with id=%s has %s=%s", id, label, value));
+		    if (log.isLoggable(Level.WARNING)) {
+		        log.log(Level.WARNING, String.format("Row with id=%s has %s=%s", id, label, value));
+		    }
 			return true;
 		}
 		return false;
@@ -126,7 +134,7 @@ public class DrugPrescriberQuery implements Query {
 	}
 
 	final class PrescriberCost {
-		final Set<String> prescribers = new HashSet<String>();
+		final Set<String> prescribers = new HashSet<>();
 		BigDecimal cost = BigDecimal.ZERO;
 
 		void add(String prescriber, BigDecimal cost) {

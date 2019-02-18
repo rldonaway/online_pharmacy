@@ -1,6 +1,7 @@
 package com.insightdataengineering.donaway.inputoutput;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,9 @@ public class FileInputIterator implements Iterator<String> {
 
 	@Override
 	public String next() {
+	    if (!fileIn.scanner.hasNext()) {
+	        throw new NoSuchElementException();
+	    }
 		String result = fileIn.scanner.nextLine();
 		if (fileIn.scanner.ioException() != null) {
 			log.log(Level.SEVERE, String.format("Problem occurred while processing lines of %s.", this.fileIn), 
@@ -38,7 +42,9 @@ public class FileInputIterator implements Iterator<String> {
 			fileIn.close();
 		}
 		if (!firstLineProcessed && skipHeader && fileIn.scanner.hasNextLine()) {
-		    log.log(Level.INFO, String.format("Skipping over the first line of %s.", this.fileIn));
+		    if (log.isLoggable(Level.INFO)) {
+		        log.log(Level.INFO, String.format("Skipping over the first line of %s.", this.fileIn));
+		    }
 		    result = fileIn.scanner.nextLine();
 		    firstLineProcessed = true;
 		}

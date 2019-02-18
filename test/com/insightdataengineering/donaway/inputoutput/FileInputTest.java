@@ -5,9 +5,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.insightdataengineering.donaway.inputoutput.FileInputBasic;
-import com.insightdataengineering.donaway.inputoutput.InputResource;
-
 public class FileInputTest {
 
 	private InputResource createFileInput() {
