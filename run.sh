@@ -7,6 +7,8 @@
 
 find ./src/main -name "*.java" > sources.txt
 
+mkdir -p ./.classes
+
 javac -d ./.classes @sources.txt
 
 java -cp ./.classes com.insightdataengineering.donaway.TopCostDrugQuery ./input/itcont.txt ./output/top_cost_drug.txt
