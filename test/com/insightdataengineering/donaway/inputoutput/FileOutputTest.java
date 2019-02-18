@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 public class FileOutputTest {
 
     private OutputResource createFileOutput() {
-//      String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_1/input/itcont.txt";
-        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_3\\output\\some_file.txt";
+        String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_3/output/some_file.txt";
+//        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_3\\output\\some_file.txt";
         return new FileOutputBasic(filePath);
     }
 
-    @Test
+//    @Test
     public void testIterating() {
         List<String> fileLines = Arrays.asList(
                 "1000000001,\"Smith,James\",AMBIEN,100" + System.lineSeparator(),
@@ -35,4 +35,8 @@ public class FileOutputTest {
         }
     }
 
+    public static final void main(String... args) {
+    	new FileOutputTest().testIterating();
+    }
+    
 }

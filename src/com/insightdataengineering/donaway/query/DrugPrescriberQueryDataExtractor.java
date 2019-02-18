@@ -20,7 +20,6 @@ public class DrugPrescriberQueryDataExtractor {
     private Logger log = Logger.getLogger("com.insightengineering.donaway.query.DrugPrescriberQueryDataExtractor");
 
     static final String COMMA = ",";
-    static final String QUOTE = "\"";
 
     String[] extractLineItems(String line) {
         String[] lineItems = null;
@@ -50,7 +49,7 @@ public class DrugPrescriberQueryDataExtractor {
     }
 
     String[] splitOnFirstCommaQuotes(String string) {
-        int quoteSpot = string.indexOf(QUOTE);
+        int quoteSpot = string.indexOf('"');
         if (quoteSpot != 0) {
             return splitOnFirstComma(string);
         }
@@ -63,8 +62,15 @@ public class DrugPrescriberQueryDataExtractor {
     }
 
     String[] splitOnFirstComma(String line) {
+    	String[] result = new String[2];
         int commaSpot = line.indexOf(',');
-        String[] result = new String[2];
+        if (commaSpot < 0) {
+        	if (log.isLoggable(Level.WARNING)) {
+        		log.warning(String.format("There is no comma in [%s] so can't split", line));
+        	}
+        	result[0] = line;
+        	result[1] = null;
+        }
         result[0] = line.substring(0, commaSpot);
         result[1] = line.substring(commaSpot + 1);
         return result;

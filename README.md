@@ -24,10 +24,26 @@ implements the `Query` interface so that other queries with this interface can b
 used with the input and output (I/O) classes. The I/O classes implement 
 `InputResource` and `OutputResource` so that the implementation does not depend on 
 using files. For example, the data might be streamed over the network. The concrete
-resource classes used in this project are `FileInputBasic` and `FileOutputBasic`. 
+resource classes used in this project are `FileInputBasic` and `FileOutputBasic`. Finally,
+there is a main class that ties it all together called `TopCostDrugQuery`. It accepts 
+the input file names and creates and links the query object and the input and output
+objects.
+
+The testing code is clunky because I did not want to include JUnit, a third-party
+library that would need to be obtained and installed as part of the run script.
+However, I wanted to use the JUnit library built into Eclipse during development.
+I put the required imports and `@Test` annotations into the source files, but had 
+to take them out so that the code would compile with the run script. To do this, 
+I commented them out and added main methods to the test classes. I would never do
+this in a real assignment, but I did it here in the interest of time. Also, as it 
+stands, there is no useful output from the unit tests, other than from 
+System.out.println statements. It is difficult to determine if a test passed or 
+not. I apologize for this.
 
 ## Setup
 The project also does not use any third-party build tools. In a more realistic 
 project, I would like to use Maven but that requires a download and installation. 
-Instead, I am using a simple shell script to compile and run the project.
+Instead, I am using a simple shell script to compile the code and run the tests 
+in the project. To do this at the command prompt, change to the top project 
+directory of this project and type `./run.sh`.
 

@@ -8,13 +8,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 public class CheckGeneratedOutput {
 
-    String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_2\\input\\de_cc_data.txt";
+//    String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_2\\input\\de_cc_data.txt";
+    String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_2/input/de_cc_data.txt"; // TODO externalize
 
-    @Test
+//    @Test
     public void searchForLines() throws IOException {
         System.out.println("--- GILDAGIA,19,6324.04 ---");
         printLinesForDrug("GILDAGIA");
@@ -45,4 +46,11 @@ public class CheckGeneratedOutput {
         }
     }
 
+    public static final void main(String... args) {
+    	try {
+			new CheckGeneratedOutput().searchForLines();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+    }
 }

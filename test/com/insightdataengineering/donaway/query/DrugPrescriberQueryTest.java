@@ -3,7 +3,7 @@ package com.insightdataengineering.donaway.query;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 import com.insightdataengineering.donaway.inputoutput.OutputResource;
 import com.insightdataengineering.donaway.query.DrugPrescriberQuery;
@@ -12,7 +12,7 @@ public class DrugPrescriberQueryTest {
 
     DrugPrescriberQuery dpsToTest = new DrugPrescriberQuery();
 
-    @Test
+//    @Test
 	public void testGenerateSmallData() {
 		List<String> inputData = Arrays.asList(
 				"1000000001,Smith,James,AMBIEN,100",
@@ -30,6 +30,10 @@ public class DrugPrescriberQueryTest {
             }
             @Override public void close() { }
         });
+	}
+
+	public static final void main(String... args) {
+		new DrugPrescriberQueryTest().testGenerateSmallData();
 	}
 	
 }

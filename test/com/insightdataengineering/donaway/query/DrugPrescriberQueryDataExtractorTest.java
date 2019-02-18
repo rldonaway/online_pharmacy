@@ -1,12 +1,12 @@
 package com.insightdataengineering.donaway.query;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 
 public class DrugPrescriberQueryDataExtractorTest {
 
     DrugPrescriberQueryDataExtractor dpqde = new DrugPrescriberQueryDataExtractor();
     
-    @Test
+//    @Test
     public void testParseLineWithQuotes() {
         String toTest = "1000000003,\"Johnson, Jr.\",James,CHLORPROMAZINE,1000";
         String[] strings = dpqde.parseLineWithQuotes(toTest);
@@ -17,7 +17,7 @@ public class DrugPrescriberQueryDataExtractorTest {
         assert "1000".equals(strings[4]);
     }
     
-    @Test
+//    @Test
     public void testSplitOnFirstCommaQuotes() {
         String toTest = "something,\"else,too\"";
         String[] strings = dpqde.splitOnFirstCommaQuotes(toTest);
@@ -29,7 +29,7 @@ public class DrugPrescriberQueryDataExtractorTest {
         assert "\"else,too\"".equals(strings[1]);
     }
     
-    @Test
+//    @Test
     public void testSplitOnFirstComma() {
         String toTest = "something,else,something,really,else";
         String[] strings = dpqde.splitOnFirstComma(toTest);
@@ -37,7 +37,7 @@ public class DrugPrescriberQueryDataExtractorTest {
         assert "else,something,really,else".equals(strings[1]);
     }
     
-    @Test
+//    @Test
     public void testExtractLineItems() {
         String[] items = dpqde.extractLineItems("1000000001,Smith,James,AMBIEN,100");
         assert "1000000001".equals(items[0]);
@@ -59,4 +59,11 @@ public class DrugPrescriberQueryDataExtractorTest {
         assert "58.79".equals(items[4]);
     }
     
+    public static final void main(String... args) {
+    	DrugPrescriberQueryDataExtractorTest test = new DrugPrescriberQueryDataExtractorTest();
+    	test.testExtractLineItems();
+    	test.testParseLineWithQuotes();
+    	test.testSplitOnFirstComma();
+    	test.testSplitOnFirstCommaQuotes();
+    }
 }
