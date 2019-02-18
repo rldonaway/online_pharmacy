@@ -1,4 +1,4 @@
-package com.insightdataengineering.donaway.fileio;
+package com.insightdataengineering.donaway.inputoutput;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * 
  * @author Robert L. Donaway
  */
-public class FileInputBasic implements FileInput {
+public class FileInputBasic implements InputResource {
 
 	private Logger log = Logger.getLogger("com.insightengineering.donaway.fileio.FileInputBasic");
 

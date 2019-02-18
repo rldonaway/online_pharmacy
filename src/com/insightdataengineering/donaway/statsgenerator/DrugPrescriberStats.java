@@ -17,10 +17,6 @@ public class DrugPrescriberStats implements StatsGenerator {
 
 	private Map<String, PrescriberCost> drugMap = new HashMap<String, PrescriberCost>();
 
-	public DrugPrescriberStats() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -33,23 +29,20 @@ public class DrugPrescriberStats implements StatsGenerator {
 			processLine(line);
 		}
 		System.out.println(drugMap);
-//		
-//		CHLORPROMAZINE,2,3000
-//		BENZTROPINE MESYLATE,1,1500
-//		AMBIEN,2,300
-		List<DrugPrescriberCost> result = new ArrayList<DrugPrescriberCost>(drugMap.size());
-//		result.add("drug_name,num_prescriber,total_cost"); // TODO put this into fahl
+		List<DrugPrescriberCost> dpcResult = new ArrayList<DrugPrescriberCost>(drugMap.size());
 		for (String drug : drugMap.keySet()) {
 			PrescriberCost prescriberCost = drugMap.get(drug);
 			int prescriberCount = prescriberCost.prescriberCount();
 			BigDecimal totalCost = prescriberCost.cost;
-			System.out.println(String.format("%s,%s,%s", drug, prescriberCount, totalCost));
-			result.add(new DrugPrescriberCost(drug, prescriberCount, totalCost));
+			log.log(Level.FINEST, String.format("%s,%s,%s", drug, prescriberCount, totalCost));
+			dpcResult.add(new DrugPrescriberCost(drug, prescriberCount, totalCost));
 		}
-		Collections.sort(result); // maybe ass in a method
-		for (DrugPrescriberCost dpc : result) {
+		Collections.sort(dpcResult); // TODO allow for client to pass in a sort method?
+		for (DrugPrescriberCost dpc : dpcResult) {
 			System.out.println(dpc);
 		}
+		//TODO do something real with the results... return?
+//		result.add(0, "drug_name,num_prescriber,total_cost");
 	}
 
 	void processLine(String line) {
@@ -59,23 +52,48 @@ public class DrugPrescriberStats implements StatsGenerator {
 		assert null != line;
 		String[] lineItems = line.split(",");
 		if (lineItems.length != 5) {
-			// TODO log error with id
+			log.log(Level.WARNING, "Row does not have 5 entries: " + line);
 			return;
 		}
 		String id = lineItems[0];
-		// TODO check non empty
+		if (empty(id, "id", id)) {
+			return;
+		}
 		String lastName = lineItems[1];
-		// TODO check non empty
+		if (empty(id, "lastName", lastName)) {
+			return;
+		}
 		String firstName = lineItems[2];
-		// TODO check non empty
+		if (empty(id, "firstName", firstName)) {
+			return;
+		}
 		String drug = lineItems[3];
-		// TODO check non empty
+		if (empty(id, "drug", drug)) {
+			return;
+		}
 		String costString = lineItems[4];
-		// TODO check non empty
-		BigDecimal cost = new BigDecimal(costString);
-		// TODO catch and log parsing problem
+		if (empty(id, "cost", costString)) {
+			return;
+		}
+		BigDecimal cost = null;
+		try {
+			cost = new BigDecimal(costString);
+		} catch (NumberFormatException nfe) {
+			log.log(Level.WARNING, String.format("Row with id=%s has invalid cost=%s", id, costString));
+		}
 		String prescriber = getName(lastName, firstName);
+		if (empty(id, "prescriber", prescriber)) {
+			return;
+		}
 		addToDrugMap(drug, cost, prescriber);
+	}
+
+	private boolean empty(String id, String label, String value) {
+		if (value == null || value.length() < 1) {
+			log.log(Level.WARNING, String.format("Row with id=%s has %s=%s", id, label, value));
+			return true;
+		}
+		return false;
 	}
 
 	private void addToDrugMap(String drug, BigDecimal cost, String prescriber) {
@@ -116,7 +134,7 @@ public class DrugPrescriberStats implements StatsGenerator {
 		
 		final String drug;
 		final int prescriberCount;
-		final BigDecimal totalCost;
+		final BigDecimal totalCost; // TODO should this be an integer?
 
 		public DrugPrescriberCost(String drug, int prescriberCount, BigDecimal totalCost) {
 			this.drug = drug;

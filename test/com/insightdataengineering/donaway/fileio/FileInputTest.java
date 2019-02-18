@@ -1,10 +1,16 @@
 package com.insightdataengineering.donaway.fileio;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
+import com.insightdataengineering.donaway.inputoutput.FileInputBasic;
+import com.insightdataengineering.donaway.inputoutput.InputResource;
 
 public class FileInputTest {
 
-	private FileInput createFileInput() {
+	private InputResource createFileInput() {
 		return new FileInputBasic("/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_1/input/itcont.txt");
 	}
 
@@ -15,10 +21,16 @@ public class FileInputTest {
 
 	@Test
 	public void testIterating() {
-		try (FileInput fi = createFileInput()) {
+		List<String> fileLines = Arrays.asList(
+				"id,prescriber_last_name,prescriber_first_name,drug_name,drug_cost",
+				"1000000001,Smith,James,AMBIEN,100",
+				"1000000002,Garcia,Maria,AMBIEN,200",
+				"1000000003,Johnson,James,CHLORPROMAZINE,1000",
+				"1000000004,Rodriguez,Maria,CHLORPROMAZINE,2000",
+				"1000000005,Smith,David,BENZTROPINE MESYLATE,1500");
+		try (InputResource fi = createFileInput()) {
 			for (String line : fi) {
-				System.out.println(line);
-				// TODO actually use fahl data
+				assert fileLines.contains(line);
 			}			
 		}
 	}
