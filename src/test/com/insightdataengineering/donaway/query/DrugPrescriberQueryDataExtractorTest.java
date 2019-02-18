@@ -65,5 +65,6 @@ public class DrugPrescriberQueryDataExtractorTest {
     	test.testParseLineWithQuotes();
     	test.testSplitOnFirstComma();
     	test.testSplitOnFirstCommaQuotes();
+    	System.out.println("DrugPrescriberQueryDataExtractorTest finished");
     }
 }

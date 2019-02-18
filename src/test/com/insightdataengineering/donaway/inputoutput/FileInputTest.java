@@ -8,7 +8,7 @@ import java.util.List;
 public class FileInputTest {
 
 	private InputResource createFileInput() {
-	    String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_1/input/itcont.txt"; //TODO externalize
+	    String filePath = "./../../insight_testsuite/tests/test_1/input/itcont.txt"; //TODO externalize
 //        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_1\\input\\itcont.txt";
 		return new FileInputBasic(filePath, true);
 	}
@@ -38,5 +38,6 @@ public class FileInputTest {
 		FileInputTest fit = new FileInputTest();
 		fit.testCreatingFileInput();
 		fit.testIterating();
+		System.out.println("FileInputTest finished");
 	}
 }

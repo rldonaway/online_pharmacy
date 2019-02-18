@@ -10,7 +10,7 @@ import java.util.List;
 public class FileOutputTest {
 
     private OutputResource createFileOutput() {
-        String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_3/output/some_file.txt";
+        String filePath = "./../../insight_testsuite/unit_test_output/some_file.txt";
 //        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_3\\output\\some_file.txt";
         return new FileOutputBasic(filePath);
     }
@@ -37,6 +37,7 @@ public class FileOutputTest {
 
     public static final void main(String... args) {
     	new FileOutputTest().testIterating();
+    	System.out.println("FileOutputTest finished");
     }
     
 }

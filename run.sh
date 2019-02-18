@@ -5,32 +5,8 @@
 #
 #python ./src/pharmacy_counting.py ./input/itcont.txt ./output/top_cost_drug.txt
 
-find ./src -name "*.java" > sources.txt
-find ./test -name "*.java" > tests.txt
+find ./src/main -name "*.java" > sources.txt
 
-javac -d .classes @sources.txt
-javac -classpath ./.classes -d .classes @tests.txt
+javac -d ./.classes @sources.txt
 
-java -cp ./.classes com.insightdataengineering.donaway.inputoutput.FileInputTest
-echo FileInputTest finished
-
-java -cp ./.classes com.insightdataengineering.donaway.inputoutput.FileOutputTest
-echo FileOutputTest finished
-
-java -cp ./.classes com.insightdataengineering.donaway.query.DrugPrescriberQueryDataExtractorTest
-echo DrugPrescriberQueryDataExtractorTest finished
-
-java -cp ./.classes com.insightdataengineering.donaway.query.DrugPrescriberQueryTest
-echo DrugPrescriberQueryTest finished
-
-java -cp ./.classes com.insightdataengineering.donaway.query.DrugPrescriberQueryBigTest
-echo DrugPrescriberQueryBigTest finished
-
-java -cp ./.classes com.insightdataengineering.donaway.TopCostDrugQuery ./insight_testsuite/tests/test_1/input/itcont.txt ./insight_testsuite/tests/test_1/output/top_cost_drug.txt
-echo TopCostDrugQuery (small) is finished
-
-java -cp ./.classes com.insightdataengineering.donaway.TopCostDrugQuery ./insight_testsuite/tests/test_2/input/de_cc_data.txt ./insight_testsuite/tests/test_2/output/top_cost_drug.txt
-echo TopCostDrugQuery (big) is finished
-
-java -cp ./.classes com.insightdataengineering.donaway.sanitycheck.CheckGeneratedOutput
-echo CheckGeneratedOutput finished
+java -cp ./.classes com.insightdataengineering.donaway.TopCostDrugQuery ./input/itcont.txt ./output/top_cost_drug.txt

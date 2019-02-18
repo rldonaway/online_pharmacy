@@ -34,6 +34,7 @@ public class DrugPrescriberQueryTest {
 
 	public static final void main(String... args) {
 		new DrugPrescriberQueryTest().testGenerateSmallData();
+		System.out.println("DrugPrescriberQueryTest finished");
 	}
 	
 }

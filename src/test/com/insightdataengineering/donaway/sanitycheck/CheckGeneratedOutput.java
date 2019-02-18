@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public class CheckGeneratedOutput {
 
 //    String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_2\\input\\de_cc_data.txt";
-    String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_2/input/de_cc_data.txt"; // TODO externalize
+    String filePath = "./../../insight_testsuite/tests/test_2/input/de_cc_data.txt"; // TODO externalize
 
 //    @Test
     public void searchForLines() throws IOException {
@@ -49,6 +49,7 @@ public class CheckGeneratedOutput {
     public static final void main(String... args) {
     	try {
 			new CheckGeneratedOutput().searchForLines();
+			System.out.println("CheckGeneratedOutput finished");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

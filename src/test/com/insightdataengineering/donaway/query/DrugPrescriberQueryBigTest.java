@@ -10,7 +10,7 @@ public class DrugPrescriberQueryBigTest {
 
 //    @Test
 	public void testGenerateBigData() {
-      String filePath = "/Users/rldonaway/git/online_pharmacy/insight_testsuite/tests/test_2/input/de_cc_data.txt";
+      String filePath = "./../../insight_testsuite/tests/test_2/input/de_cc_data.txt";
 //        String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_2\\input\\de_cc_data.txt";
 		DrugPrescriberQuery dpsToTest = new DrugPrescriberQuery();
         try (InputResource fileInput = new FileInputBasic(filePath, true)) { 
@@ -29,6 +29,7 @@ public class DrugPrescriberQueryBigTest {
 	
 	public static final void main(String... args) {
 		new DrugPrescriberQueryBigTest().testGenerateBigData();
+		System.out.println("DrugPrescriberQueryBigTest finished");
 	}
 	
 }

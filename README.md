@@ -43,7 +43,11 @@ not. I apologize for this.
 ## Setup
 The project also does not use any third-party build tools. In a more realistic 
 project, I would like to use Maven but that requires a download and installation. 
-Instead, I am using a simple shell script to compile the code and run the tests 
-in the project. To do this at the command prompt, change to the top project 
-directory of this project and type `./run.sh`.
+Instead, I am using a simple shell script calling `javac` and `java` to compile 
+the code and run the query process. To run this at the command prompt, change 
+to the top directory of this project and type `./run.sh`. If this is not 
+executable, run `chmod a+x run.sh`.
 
+I wrote several unit tests that test parts of the process, so don't always need
+input or output files. To run these, change to the test directory `src/test` and 
+run `run_unit_tests.sh`. (You may need to run `chmod` on this. See paragraph above.)
