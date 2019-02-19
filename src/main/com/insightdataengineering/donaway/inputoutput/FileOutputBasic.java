@@ -30,6 +30,9 @@ public class FileOutputBasic implements OutputResource {
         }
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.insightdataengineering.donaway.inputoutput.OutputResource#writeLine()
+	 */
 	@Override
     public void writeLine(String line) {
 	    try {
@@ -40,6 +43,9 @@ public class FileOutputBasic implements OutputResource {
         }
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.insightdataengineering.donaway.inputoutput.OutputResource#writeCsvLine()
+	 */
 	@Override
 	public void writeCsvLine(Object... items) {
 	    StringBuilder sb = new StringBuilder();

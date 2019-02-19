@@ -31,9 +31,7 @@ public class DrugPrescriberQuery implements Query {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.insightdataengineering.donaway.query.Query#generateResults()
+	 *  @see com.insightdataengineering.donaway.query.Query#generateResults()
 	 */
 	@Override
 	public void generateResults(Iterable<String> input, OutputResource output) {
@@ -74,45 +72,33 @@ public class DrugPrescriberQuery implements Query {
 		}
 		assert null != line;
 		String[] lineItems = dataExtractor.extractLineItems(line);
-		String id = lineItems[0];
-		if (empty(id, "id", id)) {
-			return;
+		
+		String prescriber = lineItems[0];
+		
+		String drug = lineItems[1];
+		if (empty(prescriber, "drug", drug)) {
+			return; // drug is required for query
 		}
-		String lastName = lineItems[1];
-		if (empty(id, "lastName", lastName)) {
-			return;
-		}
-		String firstName = lineItems[2];
-		if (empty(id, "firstName", firstName)) {
-		    if (log.isLoggable(Level.INFO)) {
-		        log.log(Level.INFO, String.format("Row with id=%s has blank firstName", id));
-		    }
-		}
-		String drug = lineItems[3];
-		if (empty(id, "drug", drug)) {
-			return;
-		}
-		String costString = lineItems[4];
-		if (empty(id, "cost", costString)) {
-			return;
+		
+		String costString = lineItems[2];
+		if (empty(prescriber, "cost", costString)) {
+			return; // cost is required for query
 		}
 		BigDecimal cost = null;
 		try {
 			cost = new BigDecimal(costString);
 		} catch (NumberFormatException nfe) {
-			log.log(Level.WARNING, String.format("Row with id=%s has invalid cost=%s", id, costString));
+			log.log(Level.WARNING, String.format("Row with prescriber=%s has invalid cost=%s", prescriber, costString));
+			return; // cost is required for query
 		}
-		String prescriber = getName(lastName, firstName);
-		if (empty(id, "prescriber", prescriber)) {
-			return;
-		}
+		
 		addToDrugMap(drug, cost, prescriber);
 	}
 
     private boolean empty(String id, String label, String value) {
 		if (value == null || value.length() < 1) {
 		    if (log.isLoggable(Level.WARNING)) {
-		        log.log(Level.WARNING, String.format("Row with id=%s has %s=%s", id, label, value));
+		        log.log(Level.WARNING, String.format("Row for %s has %s=%s", id, label, value));
 		    }
 			return true;
 		}
@@ -127,10 +113,6 @@ public class DrugPrescriberQuery implements Query {
 			newOne.add(prescriber, cost);
 			drugMap.put(drug, newOne);
 		}
-	}
-
-	private String getName(String lastName, String firstName) {
-		return String.format("\"%s, %s\"", lastName, firstName);
 	}
 
 	final class PrescriberCost {

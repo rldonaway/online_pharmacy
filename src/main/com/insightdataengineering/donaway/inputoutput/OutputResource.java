@@ -12,6 +12,9 @@ public interface OutputResource extends AutoCloseable {
 
     void writeLine(String line);
 
+	/**
+	 * Writes the given items, comma separated, to a file line.
+	 */
     void writeCsvLine(Object... items);
     
     @Override

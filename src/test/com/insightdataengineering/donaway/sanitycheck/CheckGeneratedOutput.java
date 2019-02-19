@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public class CheckGeneratedOutput {
 
 //    String filePath = "C:\\Users\\Terri\\git\\online_pharmacy\\insight_testsuite\\tests\\test_2\\input\\de_cc_data.txt";
-    String filePath = "./../../insight_testsuite/tests/test_2/input/de_cc_data.txt"; // TODO externalize
+    String filePath = "./../../insight_testsuite/tests/test_2/input/itcont.txt"; // TODO externalize
 
 //    @Test
     public void searchForLines() throws IOException {
